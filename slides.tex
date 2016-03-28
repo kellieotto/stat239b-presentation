@@ -13,7 +13,7 @@
 \newcommand{\naturals}{\mathbb{N}}
 \newcommand{\rationals}{\mathbb{Q}}
 
-\newcommand{\ind}[1]{1_{#1}} % Indicator function
+\newcommand{\ind}[1]{1{\{#1\}}} % Indicator function
 \newcommand{\pr}{\mathbb{P}} % Generic probability
 \newcommand{\ex}{\mathbb{E}} % Generic expectation
 \newcommand{\var}{\textrm{Var}}
@@ -51,16 +51,15 @@
 
 \frame{
 \frametitle{Problem statement}
-problem of finding standard errors for an estimator
+\todo{problem of finding standard errors for an estimator
 
-asymptotic results are sometimes available
+asymptotic results are sometimes available}
 }
 
 \frame
 {
   \frametitle{The bootstrap}
-
-nifty slide or two explaining the bootstrap. Mike Jordan had a nice graphic in his bag of little bootstraps talk.
+\todo{nifty slide or two explaining the bootstrap. Mike Jordan had a nice graphic in his bag of little bootstraps talk.}
 }
 
 
@@ -70,10 +69,11 @@ nifty slide or two explaining the bootstrap. Mike Jordan had a nice graphic in h
 
 \frame{
 \frametitle{On the failure of the bootstrap}
-Thesis: 
+Thesis: \todo
 
 }
 
+\subsection{Notation and Assumptions}
 
 \frame{
 \frametitle{Notation and Assumptions}
@@ -135,5 +135,74 @@ The matching estimator of $\tau$ is then
 
 $$\hat{\tau} = \frac{1}{N_1} \sum_{i : W_i = 1} \left(Y_i - \hat{Y}_i(0)\right)$$
 }
+
+
+
+
+\frame{
+\frametitle{Notation and Assumptions}
+An alternative way of writing the estimator is
+
+$$\hat{\tau} = \frac{1}{N_1} \sum_{i=1}^N (W_i - (1-W_i)K_i) Y_i$$
+
+where $K_i$ is the weighted number of times that unit $i$ is used as a match:
+
+\begin{displaymath}
+   K_i = \left\{
+     \begin{array}{lr}
+      0 & \text{ if  } W_i = 1\\
+      \sum_{j: W_j=1} \ind{i \in \mathcal{J}(j)} \frac{1}{\#\mathcal{J}(j)} & \text{ if  } W_i = 0
+     \end{array}
+   \right.
+\end{displaymath} 
+}
+
+
+
+\subsection{The Bootstrap}
+
+\frame{
+\frametitle{Bootstrap}
+\begin{itemize}
+\item Think of $Z = (X, W, Y)$ as a random sample and $t(\cdot)$ as a functional on $Z$. $\hat{\tau} = t(Z)$. 
+\item We obtain a \textbf{bootstrap sample} $Z_b$ by taking a random sample with replacement from $Z$. 
+\item We calculate the bootstrap estimator by applying $t(\cdot)$ to $Z_b$: $\hat{\tau}_b = t(Z_b)$.
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Bootstrap}
+The bootstrap variance of $\hat{\tau}$ is the variance of $\hat{\tau}_b$ conditional on $Z$:
+
+$$V^{B} = \ex\left[ (\hat{\tau}_b - \hat{\tau})^2 \mid Z\right]$$
+
+We estimate it by generating $B$ bootstrap samples from $Z$ and taking the following average:
+
+$$\hat{V}^B = \frac{1}{B} \sum_{b=1}^B \left( \hat{\tau}_b - \hat{\tau} \right)^2$$
+}
+
+\frame{
+\frametitle{Bootstrap}
+\textbf{Issue:} the bootstrap fails to replicate the distribution of $K_i$, even in large samples
+\begin{itemize}
+\item Suppose the ratio $N_1/N_0$ is small (i.e. there are few treated relative to controls)
+\item In the original sample, few controls are used as a match more than once
+\item In bootstrap samples, treated units may appear multiple times, creating situations where $\pr(K_{b,i} > 1) > \pr(K_i > 1)$ \todo{is this technically correct? is there a better way to put this?}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Bootstrap}
+some theory?
+}
+
+
+\section{Simulations}
+
+
+
+
 
 \end{document}

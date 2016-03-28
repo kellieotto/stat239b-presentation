@@ -2,6 +2,40 @@
 
  \usepackage{beamerthemesplit}
  
+ 
+% Math macros
+\newcommand{\cD}{{\mathcal D}}
+\newcommand{\cF}{{\mathcal F}}
+\newcommand{\todo}[1]{{\color{red}{TO DO: \sc #1}}}
+
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\rationals}{\mathbb{Q}}
+
+\newcommand{\ind}[1]{1_{#1}} % Indicator function
+\newcommand{\pr}{\mathbb{P}} % Generic probability
+\newcommand{\ex}{\mathbb{E}} % Generic expectation
+\newcommand{\var}{\textrm{Var}}
+\newcommand{\cov}{\textrm{Cov}}
+
+\newcommand{\normal}{N} % for normal distribution (can probably skip this)
+\newcommand{\eps}{\varepsilon}
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\convd}{\stackrel{d}{\longrightarrow}} % convergence in distribution/law/measure
+\newcommand{\convp}{\stackrel{P}{\longrightarrow}} % convergence in probability
+\newcommand{\convas}{\stackrel{\textrm{a.s.}}{\longrightarrow}} % convergence almost surely
+
+\newcommand{\eqd}{\stackrel{d}{=}} % equal in distribution/law/measure
+\newcommand{\argmax}{\arg\!\max}
+\newcommand{\argmin}{\arg\!\min}
+ 
+ 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \title{On the Failure of the Bootstrap for Matching Estimators}
 \author{Andrew Do, Kellie Ottoboni, Simon Walter}
 \date{April 8, 2016}
@@ -32,8 +66,74 @@ nifty slide or two explaining the bootstrap. Mike Jordan had a nice graphic in h
 
 
 
+\section{Abadie and Imbens (2008)}
+
+\frame{
+\frametitle{On the failure of the bootstrap}
+Thesis: 
+
+}
+
+
+\frame{
+\frametitle{Notation and Assumptions}
+\begin{itemize}
+\item Suppose we have a random sample of $N_0$ units from the control population and a random sample of $N_1$ units from the treated population, with $N = N_0 + N_1$
+\item Each unit has a pair of potential outcomes, $Y_i(0)$ and $Y_i(1)$, under the control and active treatments
+\item Let $W_i$ indicate treatment: we observe $Y_i = W_i Y_i(1) + (1-W_i) Y_i(0)$
+\item In addition to the outcome, we observe a (scalar) covariate $X_i$ for each individual
+\end{itemize}
+We're interested in the \textbf{average treatment effect for the treated} (ATT):
+
+$$\tau = \ex(Y_i(1) - Y_i(0) \mid W_i = 1)$$
+}
+
+
+\frame{
+\frametitle{Notation and Assumptions}
+
+We make the usual assumptions for matching:
+
+\begin{itemize}
+\item Unconfoundedness: For almost all $x$,
+$$(Y_i(0), Y_i(1)) \independent W_i \mid X_i = x \text{almost surely}$$
+\item Overlap: For some $c>0$ and almost all $x$,
+$$c \leq \pr(W_i = 1 \mid X_i = x) \leq 1-c$$
+\end{itemize}
+}
 
 
 
+\frame{
+\frametitle{Notation and Assumptions}
+$D_i$ is the distance between the covariate values for observation $i$ and the closest control group match:
+
+$$D_i = \min_{j = 1, \dots, N: W_j = 0} \left\Vert X_i - X_j \right\Vert$$
+
+$\mathcal{J}(i)$ is the set of closest matches for treated unit $i$. 
+
+\begin{displaymath}
+   \mathcal{J}(i) = \left\{
+     \begin{array}{lr}
+       \{ j \in \{1, \dots, N\} : W_j = 0, \left\Vert X_i - X_j \right\Vert = D_i \} & \text{ if  } W_i = 1\\
+       \emptyset & \text{ if  } W_i = 0
+     \end{array}
+   \right.
+\end{displaymath} 
+
+If $X$ is continuous, this set will consist of one unit with probability 1. In bootstrap samples, units may appear more than once.
+}
+
+
+\frame{
+\frametitle{Notation and Assumptions}
+Estimate the counterfactual for each treated unit as:
+
+$$\hat{Y}_i(0) = \frac{1}{\# \mathcal{J}(i)} \sum_{j \in \mathcal{J}(i)} Y_i$$
+
+The matching estimator of $\tau$ is then
+
+$$\hat{\tau} = \frac{1}{N_1} \sum_{i : W_i = 1} \left(Y_i - \hat{Y}_i(0)\right)$$
+}
 
 \end{document}

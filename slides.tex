@@ -202,24 +202,33 @@ some theory?
 \frame{
 \frametitle{Prior work on the inconsistency of the bootstrap}
 \bit
-\item Abadie and Imbens claim  this is the first case for which the bootstrap is inconsistent for a statistic that is asymptotically normal and root-$n$ consistent.
-\item However, there is a prior example on this point. Beran (1982) establishes that a Hodges-type estimator for the  mean:
+\item In a 2006 version of their paper Abadie and Imbens claim  this is the first case for which the bootstrap is inconsistent for a statistic that is asymptotically normal and $\sqrt{n}$-consistent.
+\item But this is not true. Beran (1982) establishes that a Hodges-type estimator for the  mean:
 
 $$\theta(X_1, \ldots, X_n) = \begin{cases} 
 b \bar{X}_n \textrm{  if $ |\bar{X}_n| < n^{-1/4}$} \\
 \bar{X}_n \textrm{  if $ |\bar{X}_n| \geq n^{-1/4}$}
 \end{cases}$$
 is not consistently estimated by the bootstrap when the true mean is zero.
-\todo{This mistake only exists in the preprint not the final version :(}
 \eit
 }
 
 \frame{
 \bit
-\item There is a widespread but imperfect intuition that states that Efron's bootstrap consistently estimates the distribution of the statistic  if and only if the statistic is asymptotically normal. 
+\item In the final version of the paper, Abadie and Imbens suggest that this is the first example for which the bootstrap is inconsistent for a statistic that is asymptotically normal, $\sqrt{n}$-consistent and asymptotically unbiased.
+
+\item As far as we know, this is true, but it is not really of interest because unbiasedness seems not to have any  relationship to the consistency of the bootstrap and it is easy to construct much simpler examples satisfying stronger bias conditions.
+\item We give one here: suppose $F$ is a continuous distribution with finite mean and we want to estimate the mean.
+\item Our statistic is $$\theta(\hat{F}) = \theta(X_1, \ldots, X_n) = \bar{X} + \#\{(i,j) : X_i = X_j, i \neq j \}$$
+\eit
+}
+
+\frame{
+\bit
+\item There is a widespread but imperfect and outdated intuition that states that Efron's bootstrap consistently estimates the distribution of the statistic  if and only if the statistic is asymptotically normal. 
 \item Has a rigorous proof for statistics that are linear in the data but the general case defied rigorous proof.
-\item  Rigorous results for non-linear statistics seem to require that small changes in the population functional lead to small changes in the asymptotic distribution of the statistic. 
-\item For example in the case of previous slide it is not hard to show this is violated:
+\item  Rigorous results for non-linear statistics seem to require that small changes in the population distribution lead to small changes in the asymptotic distribution of the statistic. 
+\item For example in the Beran's (1982) example it is not hard to show this is violated:
 \begin{align*}
 \theta(X_1, \ldots, X_n) \Longrightarrow
 N\left[\mu, \frac{1}{n} \var(X))\right] \textrm{\quad   if $E(X) \neq 0$} \\
@@ -239,7 +248,7 @@ N\left[\mu, \frac{1}{n} \var(X))\right] \textrm{\quad   if $E(X) \neq 0$} \\
 \todo{This claim is also weakened in the final version; I really should have read that one!}
 \item This is not satisfying. The bootstrap is used because it is second order correct:
 \todo{describe what second order correctness is}
-\item \todo{Suggest that multiplier bootstrap ?is?  second order correct and therefore might be preferred. }
+\item \todo{Suggest that multiplier bootstrap ?is?  second order correct and therefore might be preferred}
 \eit
 
 }

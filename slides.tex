@@ -37,7 +37,7 @@
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{On the Failure of the Bootstrap for Matching Estimators}
+\title{A review of ``On the Failure of the Bootstrap for Matching Estimators'' (Abadie and Imbens; 2008)}
 \author{Andrew Do, Kellie Ottoboni, Simon Walter}
 \date{April 8, 2016}
 
@@ -217,7 +217,7 @@ is not consistently estimated by the bootstrap when the true mean is zero.
 \bit
 \item In the final version of the paper, Abadie and Imbens suggest that this is the first example for which the bootstrap is inconsistent for a statistic that is asymptotically normal, $\sqrt{n}$-consistent and asymptotically unbiased.
 
-\item As far as we know, this is true, but it is not really of interest because unbiasedness seems not to have any  relationship to the consistency of the bootstrap and it is easy to construct much simpler examples satisfying stronger bias conditions.
+\item As far as we know, this is true, but it may not be of substantial interest because unbiasedness seems not to have any relationship to the consistency of the bootstrap and it is easy to construct much simpler examples satisfying stronger bias conditions.
 \item We give one here: suppose $F$ is a continuous distribution with finite mean and we want to estimate the mean.
 \item Our statistic is $$\theta(\hat{F}) = \theta(X_1, \ldots, X_n) = \bar{X} + \#\{(i,j) : X_i = X_j, i \neq j \}$$
 \eit
@@ -244,11 +244,14 @@ N\left[\mu, \frac{1}{n} \var(X))\right] \textrm{\quad   if $E(X) \neq 0$} \\
 \frame{
 \frametitle{Should we follow Abadie and Imbens recommendation?}
 \bit
-\item Conclusion is that only their prior work based on asymptotic normality and a subsampling approach have formal justification and may therefore be preferred.
-\todo{This claim is also weakened in the final version; I really should have read that one!}
-\item This is not satisfying. The bootstrap is used because it is second order correct:
-\todo{describe what second order correctness is}
-\item \todo{Suggest that multiplier bootstrap ?is?  second order correct and therefore might be preferred}
+\item Conclusion is  only their prior work based on asymptotic normality or subsampling  have formal justification.
+\item This is not satisfying: the bootstrap is used because it is often second order correct. What does this mean?
+\item For many statistics of interest we can form Edgeworth expansions of the distribution function:
+$$ \pr(\sqrt{n}(\hat{\theta} - \theta_0)/\sigma \leq x) = \Phi(x) + n^{-1/2} p_1(x) \phi(x) + \ldots$$
+\item The $p_j(x)$ are polynomials with coefficients determined by the moments of the statistic.
+\item The bootstrap distribution is:
+$$ \pr^*(\sqrt{n}(\hat{\theta} - \theta_0)/\sigma \leq x) = \Phi(x) + n^{-1/2} \hat{p}_1(x) \phi(x) + \ldots$$
+\item Here the $\hat{p}_j(x)$  are $p_j(x)$ with population moments substituted for their empirical counterparts.
 \eit
 
 }

@@ -200,7 +200,7 @@ some theory?
 }
 
 \frame{
-\frametitle{Prior work on the inconsistency of the bootstrap}
+\frametitle{Contribution to theoretical understanding of the bootstrap}
 \bit
 \item In a 2006 version of their paper Abadie and Imbens claim  this is the first case for which the bootstrap is inconsistent for a statistic that is asymptotically normal and $\sqrt{n}$-consistent.
 \item But this is not true. Beran (1982) establishes that a Hodges-type estimator for the  mean:
@@ -210,30 +210,63 @@ b \bar{X}_n \textrm{  if $ |\bar{X}_n| < n^{-1/4}$} \\
 \bar{X}_n \textrm{  if $ |\bar{X}_n| \geq n^{-1/4}$}
 \end{cases}$$
 is not consistently estimated by the bootstrap when the true mean is zero.
+\item The proof of this fact is not easy and requires some knowledge of random measures.
 \eit
 }
 
 \frame{
-\bit
-\item In the final version of the paper,  there is some suggestion this is the first example for which the bootstrap is inconsistent for a statistic that is asymptotically normal, $\sqrt{n}$-consistent and asymptotically unbiased.
+\frametitle{Contribution to theoretical understanding of the bootstrap}
 
-\item This is not true either because Beran's example is also asymptotically unbiased. Moreover it is easy to construct much simpler examples that are unbiased in finite samples too.
-\item We give one here: suppose $F$ is a continuous distribution with finite mean and we want to estimate the mean.
-\item Our statistic is $$\theta(\hat{F}) = \theta(X_1, \ldots, X_n) = \bar{X} + \#\{(i,j) : X_i = X_j, i \neq j \}$$
+\bit
+\item In the final version of the paper,  Abadie and Imbens emphasize the novelty of an example for which the bootstrap is inconsistent for a statistic that is asymptotically normal, $\sqrt{n}$-consistent and \underline{asymptotically unbiased}.
+
+\item This is not the first  example either because Beran's 1982 example is also asymptotically unbiased. 
+\item It is also easy to construct  simpler examples where the bootstrap fails that are unbiased in finite samples too, although they seem  not to have previously appeared in the literature.
+
+\eit
+}
+
+
+\frame{
+\frametitle{An example of bootstrap inconsistency for an unbiased statistic}
+\bit
+\item We give one here: suppose $X$ is drawn from the location family $\{\normal(\mu, 1)\}_{\mu \in \mathbb{R}}$ .
+\item Our estimate for $\mu$ is $$\theta(\hat{F}) = \theta(X_1, \ldots, X_n) = \bar{X} + \#\{(i,j) : X_i = X_j, i \neq j \}$$
+\item Under the true sampling distribution the second summand is almost surely zero.
+\item But under the bootstrap distribution the second summand is at least one with probability $1 - n!/n^n$
+\eit
+}
+\frame{
+\frametitle{An example of bootstrap inconsistency for an unbiased statistic}\bit
+\item The previous example was bizarre and unnatural.
+\item But it does not seem hard to extend this to cases of practical interest involving ties.
+\item For example the critical value of Wilcoxon rank-sum and signed rank tests is often approximated using the bootstrap when ties are present in the data.
 \eit
 }
 
 \frame{
+\frametitle{Placing Abadie and Imbens in the literature}
 \bit
-\item There is a widespread but imperfect and outdated intuition that states that Efron's bootstrap consistently estimates the distribution of the statistic  if and only if the statistic is asymptotically normal. 
-\item Has a rigorous proof for statistics that are linear in the data but the general case defied rigorous proof.
-\item  Rigorous results for non-linear statistics seem to require that small changes in the population distribution lead to small changes in the asymptotic distribution of the statistic. 
-\item For example in the Beran's (1982) example it is not hard to show this is violated:
-\begin{align*}
-\theta(X_1, \ldots, X_n) \Longrightarrow
-N\left[\mu, \frac{1}{n} \var(X))\right] \textrm{\quad   if $E(X) \neq 0$} \\
-\theta(X_1, \ldots, X_n) \Longrightarrow N\left[\mu, \frac{b^2}{n} \var(X)\right] \textrm{\quad   if $E(X) = 0$}
-\end{align*}
+%\item There is a widespread but imperfect and outdated intuition that states that Efron's bootstrap consistently estimates the distribution of the statistic  if and only if the statistic is asymptotically normal. 
+\item Cs\"{o}rg\H{o} and Mason (1989) established that linear statistics are consistently estimated by the bootstrap if and only if they are asymptotically normal. 
+
+\item X (198?) suggests rigorous results for non-linear statistics require in addition to asymptotic normality that the statistic is a smooth function of the data. 
+\item Formalizing this requires a notion of smoothness of random quantities called Fr\'{e}chet differentiability, but will elide it.
+\eit
+}
+\frame{
+\frametitle{Placing Abadie and Imbens in the literature}
+\bit
+\item The revision history of the manuscript  suggests that at least initially Abadie and Imbens were not particularly familiar with this prior work and some vestiges of this position remain.
+
+\item The results of Abadie and Imbens are not surprising and  not novel to specialists familiar with the theoretical work of the 1980s.
+\item But it is valuable because it informs practitioners one of the (many) limitations of the bootstrap. 
+%\item For example in the Beran's (1982) example it is not hard to show this is violated:
+%\begin{align*}
+%\theta(X_1, \ldots, X_n) \Longrightarrow
+%N\left[\mu, \frac{1}{n} \var(X))\right] \textrm{\quad   if $E(X) \neq 0$} \\
+%\theta(X_1, \ldots, X_n) \Longrightarrow N\left[\mu, \frac{b^2}{n} \var(X)\right] \textrm{\quad   if $E(X) = 0$}
+%\end{align*}
 
 \eit
 }

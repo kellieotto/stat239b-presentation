@@ -4,7 +4,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-NumericMatrix CalcPDist(NumericMatrix Ar, NumericMatrix Br) {
+NumericMatrix CalcEuclideanDist(NumericMatrix Ar, NumericMatrix Br) {
   int m = Ar.nrow(), 
     n = Br.nrow(),
     k = Ar.ncol();

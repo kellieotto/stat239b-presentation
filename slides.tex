@@ -199,6 +199,33 @@ $$\hat{V}^B = \frac{1}{B} \sum_{b=1}^B \left( \hat{\tau}_b - \hat{\tau} \right)^
 some theory?
 }
 
+
+\frame{
+\frametitle{Placing Abadie and Imbens in the literature}
+\bit
+%\item There is a widespread but imperfect and outdated intuition that states that Efron's bootstrap consistently estimates the distribution of the statistic  if and only if the statistic is asymptotically normal. 
+\item Cs\"{o}rg\H{o} and Mason (1989) established that linear statistics are consistently estimated by the bootstrap if and only if they are asymptotically normal. 
+
+\item X (198?) suggests rigorous results for non-linear statistics require in addition to asymptotic normality that the statistic is a smooth function of the data. 
+\item Formalizing this requires a notion of smoothness of random quantities called Fr\'{e}chet differentiability, but we will elide it.
+\eit
+}
+\frame{
+\frametitle{Placing Abadie and Imbens in the literature}
+\bit
+\item The revision history of the manuscript  suggests that at least initially Abadie and Imbens were not particularly familiar with this prior work and some vestiges of this position remain.
+
+\item The results of Abadie and Imbens are not surprising and  not novel to specialists familiar with the theoretical work of the 1980s.
+\item But it is valuable because it informs practitioners one of the (many) limitations of the vanilla bootstrap. 
+%\item For example in the Beran's (1982) example it is not hard to show this is violated:
+%\begin{align*}
+%\theta(X_1, \ldots, X_n) \Longrightarrow
+%N\left[\mu, \frac{1}{n} \var(X))\right] \textrm{\quad   if $E(X) \neq 0$} \\
+%\theta(X_1, \ldots, X_n) \Longrightarrow N\left[\mu, \frac{b^2}{n} \var(X)\right] \textrm{\quad   if $E(X) = 0$}
+%\end{align*}
+
+\eit
+}
 \frame{
 \frametitle{Contribution to theoretical understanding of the bootstrap}
 \bit
@@ -240,34 +267,7 @@ is not consistently estimated by the bootstrap when the true mean is zero.
 \frametitle{An example of bootstrap inconsistency for an unbiased statistic}\bit
 \item The previous example was bizarre and unnatural.
 \item But it does not seem hard to extend this to cases of practical interest involving ties.
-\item For example the critical value of Wilcoxon rank-sum and signed rank tests is often approximated using the bootstrap when ties are present in the data.
-\eit
-}
-
-\frame{
-\frametitle{Placing Abadie and Imbens in the literature}
-\bit
-%\item There is a widespread but imperfect and outdated intuition that states that Efron's bootstrap consistently estimates the distribution of the statistic  if and only if the statistic is asymptotically normal. 
-\item Cs\"{o}rg\H{o} and Mason (1989) established that linear statistics are consistently estimated by the bootstrap if and only if they are asymptotically normal. 
-
-\item X (198?) suggests rigorous results for non-linear statistics require in addition to asymptotic normality that the statistic is a smooth function of the data. 
-\item Formalizing this requires a notion of smoothness of random quantities called Fr\'{e}chet differentiability, but will elide it.
-\eit
-}
-\frame{
-\frametitle{Placing Abadie and Imbens in the literature}
-\bit
-\item The revision history of the manuscript  suggests that at least initially Abadie and Imbens were not particularly familiar with this prior work and some vestiges of this position remain.
-
-\item The results of Abadie and Imbens are not surprising and  not novel to specialists familiar with the theoretical work of the 1980s.
-\item But it is valuable because it informs practitioners one of the (many) limitations of the bootstrap. 
-%\item For example in the Beran's (1982) example it is not hard to show this is violated:
-%\begin{align*}
-%\theta(X_1, \ldots, X_n) \Longrightarrow
-%N\left[\mu, \frac{1}{n} \var(X))\right] \textrm{\quad   if $E(X) \neq 0$} \\
-%\theta(X_1, \ldots, X_n) \Longrightarrow N\left[\mu, \frac{b^2}{n} \var(X)\right] \textrm{\quad   if $E(X) = 0$}
-%\end{align*}
-
+\item For example the critical value of Wilcoxon rank-sum and signed rank tests might be approximated using the bootstrap when ties are present in the data.
 \eit
 }
 
@@ -277,17 +277,42 @@ is not consistently estimated by the bootstrap when the true mean is zero.
 \frame{
 \frametitle{Should we follow Abadie and Imbens recommendation?}
 \bit
-\item Conclusion is  only their prior work based on asymptotic normality or subsampling  have formal justification.
-\item This is not satisfying: the bootstrap is used because it is often second order correct. What does this mean?
+\item Main conclusion is  only their prior work based on asymptotic normality or subsampling  have formal justification.
+\item This is not satisfying: this is only `first order' correct but the bootstrap is used because it is often `second order' correct. 
+\item What does this mean ... ?
+\eit
+}
+
+\frame{
+\bit
 \item For many statistics of interest we can form Edgeworth expansions of the distribution function:
 $$ \pr(\sqrt{n}(\hat{\theta} - \theta_0)/\sigma \leq x) = \Phi(x) + n^{-1/2} p_1(x) \phi(x) + \ldots$$
-\item The $p_j(x)$ are polynomials with coefficients determined by the moments of the statistic.
-\item The bootstrap distribution is:
-$$ \pr^*(\sqrt{n}(\hat{\theta} - \theta_0)/\sigma \leq x) = \Phi(x) + n^{-1/2} \hat{p}_1(x) \phi(x) + \ldots$$
+\item The $p_j(x)$ are polynomials with coefficients determined by low order moments of the statistic.
+\item The bootstrap distribution has a similar expansion:
+$$ \pr^*(\sqrt{n}(\hat{\theta}^* - \hat{\theta})/\hat{\sigma} \leq x) = \Phi(x) + n^{-1/2} \hat{p}_1(x) \phi(x) + \ldots$$
 \item Here the $\hat{p}_j(x)$  are $p_j(x)$ with population moments substituted for their empirical counterparts.
+\item Bootstrap is second order correct if $$n^{-1/2} \hat{p}_1(x) \phi(x) = n^{-1/2} p_1(x) \phi(x) + o(n^{-1/2})$$
 \eit
 
 }
+
+\frame{
+\frametitle{Can we rescue the bootstrap for matching estimators}
+\bit
+\item Yes! We think... 
+\item 
+\eit 
+}
+
+
+%\frame{
+%\frametitle{Conclusions}
+%\bit
+%\item The 
+%\item 
+%
+%\eit
+%}
 
 
 \section{Simulations}

@@ -28,6 +28,7 @@ n.sim <- 60 # number of times to simulate
 simulation <- parReplicate(cl, n.sim, 
   SimulateDGP(DGPAbadieImbens, n.sam = n.sam, alpha = alpha, tau = tau))
 
-
 # Free up resources on your computer again
 stopCluster(cl)
+
+

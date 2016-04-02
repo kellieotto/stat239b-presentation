@@ -1,3 +1,4 @@
+if (!require(RANN)) install.packages(RANN)
 library(RANN)
 
 FindMatches <- function (formula, data) {
@@ -10,8 +11,8 @@ FindMatches <- function (formula, data) {
   if (sum(is.na(data)) > 0) 
     stop("There are missing values in the data")
   # Coerce factors
-  cc <- sapply(test, is.character)
-  test[cc] <- lapply(test[cc], factor)
+  cc <- sapply(data, is.character)
+  data[cc] <- lapply(data[cc], factor)
   
   terms.formula <- terms(formula)
   mf <- model.frame(terms.formula, data)

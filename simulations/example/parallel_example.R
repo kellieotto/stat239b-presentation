@@ -1,14 +1,26 @@
 library(parallel)
 library(rlecuyer)
 
-# Load the functions.  Change path as necessary
+# Load the functions
 path.to.functions <- "../functions/"
 invisible(sapply(list.files(path.to.functions), source))
 
-# Parallel Backend Setup
+# Parameters to tweak
+n.sam <- 100
+alpha <- 2
+tau <- 5
+n.sim <- 6000
+
+# <------------------------- Parallel Backend Setup ------------------------->#
+
+# No need to modify this
 RNGkind("L'Ecuyer-CMRG") # So we actually have random data
 n.cores <- detectCores() - 2
 cl <- makeCluster(n.cores, type="SOCK")
+
+# This passes global variables to each cluster
+# Most likely you'll have to add parameters from your dgp to
+# varlist (unless you only use n.sam, alpha, and tau)
 clusterExport(cl=cl, 
               varlist = c("BootFindMatches", 
                           "BootMatchedATE", 
@@ -17,12 +29,15 @@ clusterExport(cl=cl,
                           "CalcMatchedATE", 
                           "DGPAbadieImbens", 
                           "FindMatches", 
-                          "SimulateDGP"))
-clusterEvalQ(cl, {
-  library(RANN)
-  n.sam <- 100 # sample size in each iteration
-  alpha <- 2
-  tau <- 5})
+                          "SimulateDGP",
+                          "nn2", # nn2 from RANN package
+                          "n.sam",
+                          "alpha",
+                          "tau"
+              )
+)
+
+# <------------------------- Parallel Backend Setup ------------------------->#
 
 n.sim <- 60 # number of times to simulate
 simulation <- parReplicate(cl, n.sim, 

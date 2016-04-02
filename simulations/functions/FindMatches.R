@@ -1,12 +1,6 @@
-library(Rcpp)
-sourceCpp('CalcPDist.cpp')
+library(RANN)
 
-FindMatches <- function (formula, data, distance.method, ...) {
-  
-  # Save the function call
-  mcall <- match.call()
-  
-  
+FindMatches <- function (formula, data) {
   # Checks on the function inputs
   
   # Data frame issues
@@ -19,43 +13,20 @@ FindMatches <- function (formula, data, distance.method, ...) {
   cc <- sapply(test, is.character)
   test[cc] <- lapply(test[cc], factor)
   
+  terms.formula <- terms(formula)
+  mf <- model.frame(terms.formula, data)
+  W <- model.response(mf)
+  X <- model.matrix(terms.formula, data = mf)
   
-  if (!is.numeric(distance)) {
-    fn1 <- paste("Calc", distance, "Dist", sep = "")
-    if (!exists(fn1)) 
-      stop(distance, "not supported.")
-  }
-  if (is.numeric(distance)) {
-    fn1 <- "distance2user"
-  }
+  # This is expensive --- need to think of a way to do this without storing dm
+  # Only euclidean distance is implemented
+  W1 <- W == 1
+  nn.idx <- nn2(X[!W1,], X[W1,], k = 1)$nn.idx[,1]
+  # Forms list of indices for treatment and control matches
+  # Seems like the wrong data structure, but this simplifies for Abadie and Imbens'
+  # bootstrap calculation
+  matches <- Map(function(x, y) list(t = x, c = y),
+                 which(W1), which(!W1)[nn.idx])
   
-  tt <- terms(formula)
-  attr(tt, "intercept") <- 0
-  mf <- model.frame(tt, data)
-  treat <- model.response(mf)
-  X <- model.matrix(tt, data = mf)
-  
-  # This is expensive
-  distance <- as.matrix(dist(X, method = distance.method))
-  
-    
-  out2$call <- mcall
-  out2$model <- out1$model
-  out2$formula <- formula
-  out2$treat <- treat
-  if (is.null(out2$X)) {
-    out2$X <- X
-  }
-  out2$distance <- distance
-
-  nn <- matrix(0, ncol = 2, nrow = 4)
-  nn[1, ] <- c(sum(out2$treat == 0), sum(out2$treat == 1))
-  nn[2, ] <- c(sum(out2$treat == 0 & out2$weights > 0), 
-               sum(out2$treat == 1 & out2$weights > 0))
-  nn[3, ] <- c(sum(out2$treat == 0 & out2$weights == 0 & out2$discarded == 0), 
-               sum(out2$treat == 1 & out2$weights == 0 & out2$discarded == 0))
-  dimnames(nn) <- list(c("All", "Matched", "Unmatched"), 
-                       c("Control", "Treated"))
-  out2$nn <- nn
-  return(out2)
+  return(matches)
 }

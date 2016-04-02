@@ -1,5 +1,6 @@
 library(parallel)
 library(rlecuyer)
+
 # Load the functions.  Change path as necessary
 path.to.functions <- "../functions/"
 invisible(sapply(list.files(path.to.functions), source))
@@ -23,7 +24,7 @@ clusterEvalQ(cl, {
   alpha <- 2
   tau <- 5})
 
-n.sim <- 60 # number of times to simulate
+n.sim <- 600 # number of times to simulate
 simulation <- parReplicate(cl, n.sim, 
   SimulateDGP(DGPAbadieImbens, n.sam = n.sam, alpha = alpha, tau = tau))
 

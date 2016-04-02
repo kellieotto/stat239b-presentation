@@ -1,4 +1,3 @@
-# n.sims - integer, number of times to run the simulation
 # dgp - function, data generating process that produces a dataframe
 # n.boot - integer, number of bootstrap samples to take
 # formula - formula, specifies the propensity score W ~ covariates

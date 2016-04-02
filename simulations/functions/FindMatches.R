@@ -1,4 +1,4 @@
-if (!require(RANN)) install.packages(RANN)
+if (!require(RANN)) install.packages("RANN")
 library(RANN)
 
 FindMatches <- function (formula, data) {

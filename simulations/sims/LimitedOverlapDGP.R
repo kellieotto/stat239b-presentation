@@ -16,12 +16,12 @@ setwd("../sims/")
 n.sam <- 1000
 alpha <- 2
 tau <- 5
-n.sim <- 10
+n.sim <- 1000
 mu <- seq(0, 5, by = 0.5)
 
 # Parallel Backend Setup
 RNGkind("L'Ecuyer-CMRG") # So we actually have random data
-n.cores <- detectCores() - 2
+n.cores <- detectCores()-2
 cl <- makeCluster(n.cores, type="SOCK")
 clusterExport(cl=cl, 
               varlist = c("BootFindMatches", 
@@ -74,17 +74,46 @@ res2 <- res %>% group_by(mu) %>%
             var.boot.median  = median(var.boot),
             var.boot.rmse    = sqrt(mean((var.boot - var(tau.hat))^2))
   )
+res2 <- res2 %>% mutate("Empirical Variance" = tau.hat.var.obs, "Bootstrap Variance" = var.boot.overall)
 
+###### Define plotting theme
+
+report_theme <- theme(
+  axis.text = element_text(size = 14),
+  axis.title = element_text(size = 16),
+  title = element_text(size = 20),
+  legend.title = element_text(size = 14),
+  legend.text = element_text(size = 14)
+)
+
+
+###### Plot the bias
 res2_melt <- melt(res2, id.vars = "mu")
-res2_melt %>% filter(variable %in% c("var.boot.overall", "tau.hat.var.obs")) %>%
-  ggplot(aes(x = mu, y = value, color = variable)) + geom_line()
+png("../fig/KellieSimulationBias.png", width = 1000)
+res2_melt %>% 
+  filter(variable %in% c("Empirical Variance", "Bootstrap Variance")) %>%
+  ggplot(aes(x = mu, y = value, color = variable)) + 
+  geom_line() +
+  xlab("mu") +
+  ylab("Variance") +
+  ggtitle("True and Bootstrap Variance") +
+  report_theme +
+  theme(legend.title = element_blank()) 
+dev.off()
 
+###### Plot the variance
 res_melt <- melt(res, id.vars = "mu")
+
+additional_points <- data.frame("mu" = mu, "variable" = "truth", "value" = res2$tau.hat.var.obs)
+res_melt <- rbind(res_melt, additional_points)
+
+png("../fig/KellieSimulationBias.png", width = 1000)
 res_melt %>% filter(variable == "var.boot") %>%
   ggplot(aes(x = factor(mu), y = value)) +
   geom_boxplot() +
-  geom_hline(yintercept = mean(res2$tau.hat.var.obs), linetype = "dashed") + # Empirical estimate of "true" variance of tau_hat. Since it doesn't depend on mu, we average over all 11*1000 simulations.
+  geom_point(data = additional_points, aes(x = factor(mu), y = value), color = "red", size = 5) +
   xlab("mu") +
   ylab("Bootstrap Variance") +
-  ggtitle("Bootstrap Variance across 1000 Simulations")
-
+  ggtitle("Distribution of the Bootstraped Variance across 1000 Simulations") +
+  report_theme
+dev.off()

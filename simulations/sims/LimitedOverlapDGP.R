@@ -89,7 +89,7 @@ report_theme <- theme(
 
 ###### Plot the bias
 res2_melt <- melt(res2, id.vars = "mu")
-png("../fig/KellieSimulationBias.png", width = 1000)
+png("../../fig/KellieSimulationBias.png", width = 1000)
 res2_melt %>% 
   filter(variable %in% c("Empirical Variance", "Bootstrap Variance")) %>%
   ggplot(aes(x = mu, y = value, color = variable)) + 
@@ -98,7 +98,8 @@ res2_melt %>%
   ylab("Variance") +
   ggtitle("True and Bootstrap Variance") +
   report_theme +
-  theme(legend.title = element_blank()) 
+  theme(legend.title = element_blank(),
+        legend.position = "bottom") 
 dev.off()
 
 ###### Plot the variance
@@ -107,7 +108,7 @@ res_melt <- melt(res, id.vars = "mu")
 additional_points <- data.frame("mu" = mu, "variable" = "truth", "value" = res2$tau.hat.var.obs)
 res_melt <- rbind(res_melt, additional_points)
 
-png("../fig/KellieSimulationBias.png", width = 1000)
+png("../../fig/KellieSimulationDistr.png", width = 1000)
 res_melt %>% filter(variable == "var.boot") %>%
   ggplot(aes(x = factor(mu), y = value)) +
   geom_boxplot() +

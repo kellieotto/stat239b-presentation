@@ -315,8 +315,51 @@ $$ \pr^*(\sqrt{n}(\hat{\theta}^* - \hat{\theta})/\hat{\sigma} \leq x) = \Phi(x) 
 %}
 
 
-\section{Simulations}
+\section{Simulations} % can change the subsection headings...
 
+\subsection{Example 1} % Andrew results
+
+\subsection{Example 2} % Kellie results
+
+
+\frame{
+\frametitle{Effect of covariate distributions}
+
+\bit
+\item Potential outcomes $Y(1)$ and $Y(0)$ defined as before
+\item Treatment assigned at random with $\frac{N_1}{N_0} = \alpha = 2$ fixed
+\item Change the covariate distributions: $X_i \sim N(0, 1)$ if $W_i = 1$ and $X_i \sim N(\mu, 1)$ if $W_i = 0$.
+\item We vary $\mu$ from $0$ to $5$
+\item \todo{this slide is ugly}
+\eit
+}
+
+\frame{
+\frametitle{Results}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width = 0.85\textwidth]{fig/KellieSimulationBias.png}
+\end{center}
+\end{figure}
+
+The bootstrap tends to underestimate the variance of $\hat{\tau}$.  The bias increases as the distance $\mu$ between treatment and control groups increases.
+}
+
+
+\frame{
+\frametitle{Results}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{fig/KellieSimulationDistr.png}
+\end{center}
+\end{figure}
+
+Red points indicate the observed variance of the test statistic.  The distribution of bootstrap variances has a long right tail. The skew worsens as $\mu$ grows.
+
+}
+
+
+\subsection{Example 3} % Simon results
 
 
 

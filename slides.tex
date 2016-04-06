@@ -1,7 +1,10 @@
 \documentclass{beamer}
 
- \usepackage{beamerthemesplit}
- 
+\usepackage{beamerthemesplit}
+\usetheme{boxes} 
+\setbeamertemplate{items}[default] 
+\setbeamertemplate{blocks}[rounded]
+\setbeamertemplate{navigation symbols}{} 
  
 % Math macros
 \newcommand{\cD}{{\mathcal D}}
@@ -51,28 +54,43 @@
 \section{Introduction}
 
 \frame{
-\frametitle{Problem statement}
-\todo{problem of finding standard errors for an estimator
+\frametitle{Problem}
 
-asymptotic results are sometimes available}
+\bit
+\item Matching is sometimes done to control for pretreatment covariates in observational studies
+\item Matching estimators are nonlinear functions of the data and do not follow any nice known distribution
+\item \textbf{Problem:} how do you find standard errors for matching estimators?
+\item Two common ways: asymptotic approximations and resampling methods
+\eit
 }
 
 \frame
 {
   \frametitle{The bootstrap}
-\todo{nifty slide or two explaining the bootstrap. Mike Jordan had a nice graphic in his bag of little bootstraps talk.}
+\begin{figure}  
+\includegraphics[width = 0.8\textwidth]{fig/scheme.png}
+\end{figure}
+Sample with replacement from the observed data, pretending it is the population, to approximate the distribution of the statistic
+\todo{Anyone know of a better graphic?}
 }
 
 
 
 
-\section{Abadie and Imbens (2008)}
 
 \frame{
 \frametitle{On the failure of the bootstrap}
-Thesis: \todo
 
+The bootstrap estimate of the variance of the matching estimator $\hat{\tau}$ is given by
+$$\hat{V}^B = \frac{1}{B} \sum_{b=1}^B \left( \hat{\tau}_b - \hat{\tau} \right)^2$$
+
+\textbf{Abadie and Imbens show that $\hat{V}^B$ is not generally valid for matching estimators.} \\
+\vspace{10pt}
+They focus on the case of one-to-one matching on a single continuous covariate.
 }
+
+
+\section{Abadie and Imbens (2008)}
 
 \subsection{Notation and Assumptions}
 
@@ -97,8 +115,8 @@ We make the usual assumptions for matching:
 
 \begin{itemize}
 \item Unconfoundedness: For almost all $x$,
-$$(Y_i(0), Y_i(1)) \independent W_i \mid X_i = x \text{almost surely}$$
-\item Overlap: For some $c>0$ and almost all $x$,
+$$(Y_i(0), Y_i(1)) \independent W_i \mid X_i = x \text{  almost surely}$$
+\item Overlap: For some $0 < c < 1$ and almost all $x$,
 $$c \leq \pr(W_i = 1 \mid X_i = x) \leq 1-c$$
 \end{itemize}
 }
@@ -111,6 +129,7 @@ $D_i$ is the distance between the covariate values for observation $i$ and the c
 
 $$D_i = \min_{j = 1, \dots, N: W_j = 0} \left\Vert X_i - X_j \right\Vert$$
 
+\vspace{20pt}
 $\mathcal{J}(i)$ is the set of closest matches for treated unit $i$. 
 
 \begin{displaymath}
@@ -162,25 +181,21 @@ where $K_i$ is the weighted number of times that unit $i$ is used as a match:
 
 \subsection{The Bootstrap}
 
-\frame{
-\frametitle{Bootstrap}
-\begin{itemize}
-\item Think of $Z = (X, W, Y)$ as a random sample and $t(\cdot)$ as a functional on $Z$. $\hat{\tau} = t(Z)$. 
-\item We obtain a \textbf{bootstrap sample} $Z_b$ by taking a random sample with replacement from $Z$. 
-\item We calculate the bootstrap estimator by applying $t(\cdot)$ to $Z_b$: $\hat{\tau}_b = t(Z_b)$.
-\end{itemize}
-}
 
 
 \frame{
 \frametitle{Bootstrap}
-The bootstrap variance of $\hat{\tau}$ is the variance of $\hat{\tau}_b$ conditional on $Z$:
+\bit
+\item We obtain a \textbf{bootstrap sample} $Z_b$ by taking a random sample with replacement from $Z= (X, W, Y)$. 
+\item Let $\hat{\tau}_b = t(Z_b)$ be the matching statistic computed on bootstrap sample $b$.
+\item The bootstrap variance of $\hat{\tau}$ is the variance of $\hat{\tau}_b$ conditional on the original data $Z$:
 
 $$V^{B} = \ex\left[ (\hat{\tau}_b - \hat{\tau})^2 \mid Z\right]$$
 
-We estimate it by generating $B$ bootstrap samples from $Z$ and taking the following average:
+\item We estimate it by generating $B$ bootstrap samples from $Z$ and taking the following average:
 
 $$\hat{V}^B = \frac{1}{B} \sum_{b=1}^B \left( \hat{\tau}_b - \hat{\tau} \right)^2$$
+\eit
 }
 
 \frame{

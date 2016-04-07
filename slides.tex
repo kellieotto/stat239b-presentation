@@ -228,9 +228,47 @@ Example:
 }
 
 
+\section{Simulations} % can change the subsection headings...
+
+\subsection{Example 1} % Andrew results
+
+\subsection{Example 2} % Kellie results
+
+
 \frame{
-\frametitle{Bootstrap}
-some theory?
+\frametitle{Effect of covariate distributions}
+
+\bit
+\item Potential outcomes $Y(1)$ and $Y(0)$ defined as before
+\item Treatment assigned at random with $\frac{N_1}{N_0} = \alpha = 2$ fixed
+\item Change the covariate distributions: $X_i \sim N(0, 1)$ if $W_i = 1$ and $X_i \sim N(\mu, 1)$ if $W_i = 0$.
+\item We vary $\mu$ from $0$ to $5$
+\item \todo{this slide is ugly}
+\eit
+}
+
+\frame{
+\frametitle{Results}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width = 0.85\textwidth]{fig/KellieSimulationBias.png}
+\end{center}
+\end{figure}
+
+The bootstrap tends to underestimate the variance of $\hat{\tau}$.  The bias increases as the distance $\mu$ between treatment and control groups increases.
+}
+
+
+\frame{
+\frametitle{Results}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{fig/KellieSimulationDistr.png}
+\end{center}
+\end{figure}
+
+Red points indicate the observed variance of the test statistic.  The distribution of bootstrap variances has a long right tail. The skew worsens as $\mu$ grows.
+
 }
 
 
@@ -240,7 +278,7 @@ some theory?
 %\item There is a widespread but imperfect and outdated intuition that states that Efron's bootstrap consistently estimates the distribution of the statistic  if and only if the statistic is asymptotically normal. 
 \item Cs\"{o}rg\H{o} and Mason (1989) established that linear statistics are consistently estimated by the bootstrap if and only if they are asymptotically normal. 
 
-\item X (198?) suggests rigorous results for non-linear statistics require in addition to asymptotic normality that the statistic is a smooth function of the data. 
+\item \todo{X (198?)} suggests rigorous results for non-linear statistics require in addition to asymptotic normality that the statistic is a smooth function of the data. 
 \item Formalizing this requires a notion of smoothness of random quantities called Fr\'{e}chet differentiability, but we will elide it.
 \eit
 }
@@ -348,49 +386,6 @@ $$ \pr^*(\sqrt{n}(\hat{\theta}^* - \hat{\theta})/\hat{\sigma} \leq x) = \Phi(x) 
 %\eit
 %}
 
-
-\section{Simulations} % can change the subsection headings...
-
-\subsection{Example 1} % Andrew results
-
-\subsection{Example 2} % Kellie results
-
-
-\frame{
-\frametitle{Effect of covariate distributions}
-
-\bit
-\item Potential outcomes $Y(1)$ and $Y(0)$ defined as before
-\item Treatment assigned at random with $\frac{N_1}{N_0} = \alpha = 2$ fixed
-\item Change the covariate distributions: $X_i \sim N(0, 1)$ if $W_i = 1$ and $X_i \sim N(\mu, 1)$ if $W_i = 0$.
-\item We vary $\mu$ from $0$ to $5$
-\item \todo{this slide is ugly}
-\eit
-}
-
-\frame{
-\frametitle{Results}
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width = 0.85\textwidth]{fig/KellieSimulationBias.png}
-\end{center}
-\end{figure}
-
-The bootstrap tends to underestimate the variance of $\hat{\tau}$.  The bias increases as the distance $\mu$ between treatment and control groups increases.
-}
-
-
-\frame{
-\frametitle{Results}
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width = 0.9\textwidth]{fig/KellieSimulationDistr.png}
-\end{center}
-\end{figure}
-
-Red points indicate the observed variance of the test statistic.  The distribution of bootstrap variances has a long right tail. The skew worsens as $\mu$ grows.
-
-}
 
 
 \subsection{Example 3} % Simon results

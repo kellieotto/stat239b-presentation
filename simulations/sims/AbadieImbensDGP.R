@@ -3,13 +3,14 @@ library(rlecuyer)
 
 # Load the functions
 path.to.functions <- "../functions/"
-invisible(sapply(list.files(path.to.functions), source))
+functions <- list.files(path.to.functions)
+invisible(sapply(paste0(path.to.functions, functions), source))
 
 # parameters to tweak
-n.sam <- 100
-alpha <- 2
-tau <- 5
-n.sim <- 6000
+n.sam <- seq(500, 10000, 500)
+alpha <- 1:10
+tau <- 3
+n.sim <- 1000
 
 # Parallel Backend Setup
 RNGkind("L'Ecuyer-CMRG") # So we actually have random data
@@ -33,8 +34,18 @@ clusterExport(cl=cl,
                           
 
 # Simulation Call
-simulation <- parReplicate(cl, n.sim, 
-                           SimulateDGP(DGPAbadieImbens, n.sam = n.sam, alpha = alpha, tau = tau))
+
+simulation <- apply(expand.grid(n.sam, alpha), 1,
+  function(x) {
+    env <- environment()
+    n <- x[1]; a <- x[2]
+    clusterExport(cl = cl, varlist = c("n", "a"), envir = env)
+    parReplicate(cl, n.sim, SimulateDGP(DGPAbadieImbens, 
+                                        n.sam = n, 
+                                        alpha = a, 
+                                        tau = tau))
+    }
+)
 
 # Free up resources on your computer again
 stopCluster(cl)

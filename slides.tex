@@ -377,19 +377,24 @@ $$ \pr^*(\sqrt{n}(\hat{\theta}^* - \hat{\theta})/\hat{\sigma} \leq x) = \Phi(x) 
 }
 
 
-%\frame{
-%\frametitle{Conclusions}
-%\bit
-%\item The 
-%\item 
-%
-%\eit
-%}
-
 
 
 \subsection{Example 3} % Simon results
 
+
+\frame{
+\frametitle{Conclusions}
+\bit
+\item The bootstrap will never work for this kind of matching estimator with a single match on one covariate
+\item We can save the bootstrap by making the estimator ``more smooth'':
+\bit
+\item Multiple matches
+\item Subsampling
+\item $m$ out of $n$ bootstrap
+\eit
+\item Just because the bootstrap doesn't work does not mean that their asymptotic result will work for finite samples!
+\eit
+}
 
 
 

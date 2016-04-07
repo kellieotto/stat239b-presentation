@@ -72,6 +72,7 @@
 \end{figure}
 Sample with replacement from the observed data, pretending it is the population, to approximate the distribution of the statistic
 \todo{Anyone know of a better graphic?}
+\todo{cite Efron and Tibshirani book from which I screenshotted this}
 }
 
 
@@ -198,11 +199,29 @@ $$\hat{V}^B = \frac{1}{B} \sum_{b=1}^B \left( \hat{\tau}_b - \hat{\tau} \right)^
 \eit
 }
 
+
 \frame{
 \frametitle{Bootstrap}
-\textbf{Issue:} the bootstrap fails to replicate the distribution of $K_i$, even in large samples
+\bit
+\item The bootstrap works for linear statistics that are consistent and asymptotically normal
+\item For nonlinear statistics, the bootstrap requires additional smoothness conditions \todo{cite?}
+\item \todo{Abadie and Imbens show that $\hat{\tau}$ is asymptotically normal with ugly variance}
+\item Why does the bootstrap fail here? 
+\eit
+
+
+}
+
+
+\frame{
+\frametitle{Bootstrap}
+\textbf{Issue:} the bootstrap fails to replicate the distribution of $K_i$, even in large samples.
+\vspace{10pt}
+
+
+Example:
 \begin{itemize}
-\item Suppose the ratio $N_1/N_0$ is small (i.e. there are few treated relative to controls)
+\item Suppose the ratio $N_1/N_0$ is small (i.e. there are many more controls than treated)
 \item In the original sample, few controls are used as a match more than once
 \item In bootstrap samples, treated units may appear multiple times, creating situations where $\pr(K_{b,i} > 1) > \pr(K_i > 1)$ \todo{is this technically correct? is there a better way to put this?}
 \end{itemize}

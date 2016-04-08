@@ -57,12 +57,57 @@ save(simulation, file = "AbadieImbensDGP_Results.RData")
 # Free up resources on your computer again
 stopCluster(cl)
 
+
+save(sims, results, file = "AbadieImbensDGP_Results.Rdata")
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+n.sam <- seq(1000, 10000, 1000)
+alpha <- c(1, 10)
+n.sim <- 1000
+
+exact.tau <- expand.grid(sample.size = n.sam, alpha = alpha) %>%
+  mutate(n0 = round(n.sam/(1+alpha)),
+         n1 = sample.size - n0,
+         exact.var.tau.hat = 1/n1 + 3/2 * (n1 -1) * (n0 + 8/3) / n1 / (n0 + 1) / (n0 + 2))
+
+results <- sims %>%
+  group_by(sample.size, alpha) %>%
+  summarise(mean.var.boot = mean(var.boot),
+            var.tau.hat = var(tau.hat),
+            d.varboot.vartauhat = mean.var.boot - var.tau.hat) %>%
+  left_join(exact.tau) %>%
+  mutate(error.varboot = mean.var.boot / exact.var.tau.hat,
+         error.var.tau.hat = var.tau.hat / exact.var.tau.hat) %>%
+  gather(estimator, error.ratio, error.varboot, error.var.tau.hat) %>%
+  mutate(alpha = paste0("a = ", alpha),
+         Estimator = ifelse(estimator == "error.varboot", 
+                            "Average Bootstrap Variance Estimate",
+                            "Variance of Tau Estimate"))
+
+ggplot(results) +
+  geom_line(aes(x = sample.size, y = error.ratio, color = alpha)) +
+  facet_grid(~Estimator) +
+  labs(x = "Sample Size",
+       y = "Estimate of Variance / Limit of True Variance",
+       title = "Ratio of Variance Estimate and Limit Variance \n across 1000 simulations",
+       subtitle = "1000 simulations") +
+  theme(
+    strip.text.x = element_text(size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 14),
+    title = element_text(size = 20),
+    legend.title = element_text(size = 14),
+    legend.text = element_text(size = 14)
+  )
+ggsave("../../fig/AndrewSimulationBias.png")
+
 # <--- Verifying Lemma 3.1 --->#
 if (FALSE) {
 var(simulation[ ,"tau.hat"])
-n0 <- round(n.sam/(1+alpha))
-n1 <- n.sam - n0
-exact.var.tau.hat <- 1/n1 + 3/2 * (n1 -1) * (n0 + 8/3) / n1 / (n0 + 1) / (n0 + 2)
+
 
 # 3.1.iii
 scaled <- sqrt(n1) * (simulation[ ,"tau.hat"] - tau)

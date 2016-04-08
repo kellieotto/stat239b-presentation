@@ -235,12 +235,48 @@ Example:
 }
 
 
+
 \section{Simulations} % can change the subsection headings...
 
 \subsection{Example 1} % Andrew results
+\frame{
+	\frametitle{Basic Example from Abadie and Imbens}
+	
+	\bit
+	\item The marginal distribution of X is uniform on $ \left[0,1\right] $
+	\item The ratio of treated and control units is $\frac{N_1}{N_0} = \alpha$, fixed
+	\item The propensity score is $ e(x) = Pr(W_i = 1, X_i = x) $ is constant
+	\item The last two items imply $ e(x) = \frac{\alpha}{1+\alpha} $
+	\item The distribution of $ Y_i(i) $ with $ Pr(Y_i(1) = \tau)=1 $ and the conditional distribution of $ Y_i(0) $ given $ X_i=x $ is standard normal.
+	\eit
+}
+
+
+\frame{
+	\frametitle{Results}
+	
+	\begin{figure}[htbp]
+		\begin{center}
+			\includegraphics[width = 1.05\textwidth]{fig/AndrewSimulationBias.png}
+		\end{center}
+	\end{figure}
+
+The bootstrap estimate of variance does not converge to the limiting value of $ var(\hat{\tau}) $.  This is not fixed with increasing sample size.	
+}
 
 \subsection{Example 2} % Kellie results
 
+\frame{
+	\frametitle{Distribution of $ K_i $}
+	
+	\begin{figure}[htbp]
+		\begin{center}
+			\includegraphics[width = 1.05\textwidth]{fig/KDistribution.png}
+		\end{center}
+	\end{figure}
+	
+	Note that the tail of the bootstrap distribution is much fatter due to the multiplicity of treatment units.
+}
 
 \frame{
 \frametitle{Effect of covariate distributions}

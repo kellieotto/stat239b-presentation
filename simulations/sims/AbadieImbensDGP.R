@@ -82,23 +82,23 @@ results <- sims %>%
   mutate(error.varboot = mean.var.boot / exact.var.tau.hat,
          error.var.tau.hat = var.tau.hat / exact.var.tau.hat) %>%
   gather(estimator, error.ratio, error.varboot, error.var.tau.hat) %>%
-  mutate(alpha = paste0("a = ", alpha),
+  mutate(alpha = factor(alpha),
          Estimator = ifelse(estimator == "error.varboot", 
                             "Average Bootstrap Variance Estimate",
-                            "Variance of Tau Estimate"))
+                            "Variance of Tau Estimates"))
 
 ggplot(results) +
   geom_line(aes(x = sample.size, y = error.ratio, color = alpha)) +
   facet_grid(~Estimator) +
   labs(x = "Sample Size",
        y = "Estimate of Variance / Limit of True Variance",
-       title = "Ratio of Variance Estimate and Limit Variance \n across 1000 simulations",
+       title = "Ratio of Variance Estimate and Limit Variance \n across 1000 simulations, tau = 3",
        subtitle = "1000 simulations") +
   theme(
     strip.text.x = element_text(size = 14),
     axis.text = element_text(size = 14),
     axis.title = element_text(size = 14),
-    title = element_text(size = 20),
+    title = element_text(size = 16),
     legend.title = element_text(size = 14),
     legend.text = element_text(size = 14)
   )

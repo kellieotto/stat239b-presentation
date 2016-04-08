@@ -274,7 +274,19 @@ The bootstrap estimate of variance does not converge to the limiting value of $ 
 		\end{center}
 	\end{figure}
 	
-	Note that the tail of the bootstrap distribution is much fatter due to the multiplicity of treatment units.
+	Something strange is happening in the tails.
+}
+
+\frame{
+	\frametitle{Distribution of $ K_i $}
+	
+	\begin{figure}[htbp]
+		\begin{center}
+			\includegraphics[width = .95\textwidth]{fig/KDistributionNoZero.png}
+		\end{center}
+	\end{figure}
+	
+	$ k=0 $ has been removed.  Note that the tail of the bootstrap distribution is much fatter due to replacement during bootstrap sampling.  
 }
 
 \frame{

@@ -8,7 +8,8 @@
 \setbeamertemplate{items}[default] 
 \setbeamertemplate{blocks}[rounded]
 \setbeamertemplate{navigation symbols}{} 
- 
+ \setbeamertemplate{footline}[frame number]
+
 % Math macros
 \newcommand{\cD}{{\mathcal D}}
 \newcommand{\cF}{{\mathcal F}}
@@ -39,7 +40,7 @@
 \newcommand{\argmin}{\arg\!\min}
  \newcommand{\bit}{\begin{itemize}}
  \newcommand{\eit}{\end{itemize}}
- 
+ \usepackage{hyperref}
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -60,8 +61,8 @@
 \frametitle{Problem}
 
 \bit
-\item Matching is sometimes done to control for pretreatment covariates in observational studies
-\item Matching estimators are nonlinear functions of the data and do not follow any nice known distribution
+\item Matching is sometimes used to control for pretreatment covariates in observational studies
+\item Matching estimators are nonlinear, discontinuous functions of the data and do not follow any simple distribution
 \item \textbf{Problem:} how do you find standard errors for matching estimators?
 \item Two common ways: asymptotic approximations and resampling methods
 \eit
@@ -87,7 +88,7 @@
 The bootstrap estimate of the variance of the matching estimator $\hat{\tau}$ is given by
 $$\hat{V}^B = \frac{1}{B} \sum_{b=1}^B \left( \hat{\tau}_b - \hat{\tau} \right)^2$$
 
-\textbf{Abadie and Imbens show that $\hat{V}^B$ is not generally valid for matching estimators.} \\
+\textbf{Abadie and Imbens show that $\hat{V}^B$ is not valid for one kind of matching estimator.} \\
 \vspace{10pt}
 They focus on the case of one-to-one matching on a single continuous covariate.
 }
@@ -256,7 +257,7 @@ Example:
 	
 	\begin{figure}[htbp]
 		\begin{center}
-			\includegraphics[width = 1.05\textwidth]{fig/AndrewSimulationBias.png}
+			\includegraphics[width = 1.0\textwidth]{fig/AndrewSimulationBias.png}
 		\end{center}
 	\end{figure}
 
@@ -328,7 +329,7 @@ Red points indicate the observed variance of the test statistic.  The distributi
 \frame{
 \frametitle{Previous work on the bootstrap}
 \bit
-\item The bootstrap has been with us in its modern form since 1977.
+\item The bootstrap has been with us in its modern form since 1977, but its prehistory arguably begins in 1927 with the work of Indian civil servant John Hubback: Hall (2003)\footnote{\url{https://projecteuclid.org/download/pdf\_1/euclid.ss/1063994970}}
 \item The procedure works in a very wide variety of situations but there are several famous examples where the bootstrap fails:
 \bit
 \item $X_i \overset{iid}{\sim} \mathscr{U}(0,\theta)$ and $\hat{\theta} = X_{(n)}$
@@ -339,7 +340,7 @@ b \bar{X}_n \textrm{  if $ |\bar{X}_n| < n^{-1/4}$} \\
 \end{cases}$  $b \in (0,1)$
 \eit
 
-\item There are some big theorems guaranteeing the consistency of the bootstrap in general situations.
+\item There are also some big theorems guaranteeing the consistency of the bootstrap in general situations.
 \eit
 }
 
@@ -347,28 +348,28 @@ b \bar{X}_n \textrm{  if $ |\bar{X}_n| < n^{-1/4}$} \\
 \frametitle{When does the bootstrap work?}
 
 %\item There is a widespread but imperfect and outdated intuition that states that Efron's bootstrap consistently estimates the distribution of the statistic  if and only if the statistic is asymptotically normal. 
-Cs\"{o}rg\H{o} and Mason (1989) prove a result regular linear statistics summarized by Mammen 1992.
+Cs\"{o}rg\H{o} and Mason (1989)\footnote{\url{https://projecteuclid.org/euclid.aos/1176347374}} prove a result for some linear statistics summarized by Mammen (1992).\footnote{\url{http://link.springer.com/book/10.1007\%2F978-1-4612-2950-6}}
 \begin{theorem}
 If $\theta(F) = \frac{1}{n} \sum_{i-1}^n h_n(X_i)$ for some arbitrary function $h_n$ then the bootstrap works in the sense that $$d_\infty\big[\mathscr{L}(\theta(\hat{F})-\hat{t}_n), \mathscr{L}(\theta(F)-t_n)\big] \underset{p}{\rightarrow} 0$$ if and only if there exists $\sigma_n$ and $t_n$ such that $$d_\infty\big[\mathscr{L}(\theta(F)-t_n), N(0, \sigma_n^2)\big]\underset{p}{\rightarrow} 0$$
-Where $\hat{t}_n$ is some function of our sample (typically the statistic itself) and $t_n = \mathbb{E}(\hat{t}_n)$
+Here $\hat{t}_n$ is some function of the data (typically the statistic itself) and $t_n = \mathbb{E}(\hat{t}_n)$
 \end{theorem}
 
 }
 \frame{
-The next theorem is from Politis, Romano and Wolf (1999).
+The next result is from Politis, Romano and Wolf (1999).\footnote{\url{http://link.springer.com/book/10.1007\%2F978-1-4612-1554-7}}
 A statistic is Fr\'echet differentiable if $$\theta(G) = \theta(F) + L_F(G-F) + o(\Vert G - F\Vert)$$ as $\Vert G - F \Vert \rightarrow 0$ for some linear functional $L_F$.
 \begin{theorem}
-Let $\mathscr{F}$ be the class of all distributions with finite support. Assume that $F$ is drawn from $\mathscr{F}$ and the statistic $\theta(\cdot)$ is Frechet differentiable at $F$  and $L_F$ satisfies a certain condition. Then $\theta(F)$ is asymptotically normal and the bootstrap works in the sense of the previous theorem.\end{theorem}
+Let $\mathscr{F}$ be the class of all distributions with finite support. Assume that $F$ is drawn from $\mathscr{F}$ and the statistic $\theta(\cdot)$ is Fr\'echet differentiable at $F$  and $L_F$ satisfies a certain condition. Then $\theta(F)$ is asymptotically normal and the bootstrap works in the sense of the previous theorem.\end{theorem}
 
  High level intuition for this theorem is that we want to have $\hat{F} \rightarrow F \Rightarrow \theta(\hat{F}) \rightarrow \theta(F)$. This is very similar to the usual definition of continuity from analysis.
-
+ 
 }
 \frame{
-\frametitle{Is there an if and only if result for smooth functionals}
+\frametitle{Is there an if and only if result for smooth functionals?}
 \bit
-\item There are cases of statistics that are not Fr\`{e}chet differentiable for which the bootstrap works (eg the sample median) but ...
-\item According to Mammen (1992), van Zwet (1989) suggests smoothness is not only sufficient but necessary. 
-\item van Zwet (1989) was a seminar given at a conference in 1989 in Germany and unfortunately I can find no record of it.
+\item There are well known examples of statistics that are not Fr\'{e}chet differentiable for which the bootstrap works (eg the sample median) so conditions of previous theorem are sufficient but not necessary.
+\item However, according to Mammen (1992), van Zwet (1989) suggests some notion of smoothness is  necessary. 
+\item van Zwet (1989) was a seminar given at a conference in 1989 at Oberwolfach and unfortunately I can find no record of it.
 \item Cursory comments in Mammen (1992) suggest the argument is by way of the Hoeffding decomposition theorem, but I don't currently understand this theorem or the proof strategy.
 \eit
 }
@@ -378,8 +379,8 @@ Let $\mathscr{F}$ be the class of all distributions with finite support. Assume 
 \item Some of this theoretical work on the bootstrap is not well known by practitioners, and it may be that early versions of Abadie and Imbens (2008) were written without detailed knowledge of this work.
 
 \item Arguably, the results of Abadie and Imbens are not surprising and  not entirely novel to statisticians familiar with the theoretical work of the 1980s.
-\item The statistic of the matching estimator investigated is not smooth because if a treated $X_i$ falls exactly at the midpoint between two control $X_j$, $X_k$ the statistic changes discontinuously if we shift $X_i$ infinitesimally closer to one  of $X_j$ or $X_k$.
-\item But the paper is very valuable because it highlights for practitioners one of the (many) limitations of the vanilla bootstrap. 
+%\item The matching estimator investigated is not smooth because if a treated $X_i$ falls exactly at the midpoint between two control $X_j$, $X_k$ the statistic changes discontinuously if we shift $X_i$ infinitesimally closer to one  of $X_j$ or $X_k$.
+\item But the paper is very valuable because it highlights for practitioners one of the limitations of the vanilla bootstrap. 
 %\item For example in the Beran's (1982) example it is not hard to show this is violated:
 %\begin{align*}
 %\theta(X_1, \ldots, X_n) \Longrightarrow
@@ -392,15 +393,15 @@ Let $\mathscr{F}$ be the class of all distributions with finite support. Assume 
 \frame{
 \frametitle{Contribution to theoretical understanding of the bootstrap}
 \bit
-\item In a longer version of their paper Abadie and Imbens suggest this is the first case for which the bootstrap is inconsistent for a statistic that is asymptotically normal and $\sqrt{n}$-consistent.
-\item But this is not quite true. An example we have already discussed due to  Beran (1982) also exhibits bootstrap failure and is asymptotically normal and asymptotically unbiased:
+\item In a longer version of their paper,\footnote{\url{http://hks.harvard.edu/fs/aabadie/bootstrap.pdf}} Abadie and Imbens suggest this is the first case for which the bootstrap is inconsistent for a statistic that is asymptotically normal and $\sqrt{n}$-consistent.
+\item But this is not quite true. An example we have already discussed due to  Beran (1982)\footnote{\url{http://projecteuclid.org/euclid.aos/1176345704}} also exhibits bootstrap failure and is asymptotically normal and asymptotically unbiased:
 
-$$\theta(X_1, \ldots, X_n) = \begin{cases} 
+$X_i \overset{iid}\sim \mathscr{N}(\mu, 1)$ and $\hat{\mu}= \begin{cases} 
 b \bar{X}_n \textrm{  if $ |\bar{X}_n| < n^{-1/4}$} \\
 \bar{X}_n \textrm{  if $ |\bar{X}_n| \geq n^{-1/4}$}
-\end{cases}$$
-Although in this case bootstrap  failure only occurs on a set of Lebesgue measure zero
-\item The proof of this fact is not easy.
+\end{cases}$  $b \in (0,1)$
+Although for Beran's example,  failure only occurs when $\mu = 0$, ie a subset of the parameter space of Lebesgue measure zero. 
+%\item The proof of this fact is not easy.
 \eit
 }
 
@@ -419,7 +420,7 @@ Although in this case bootstrap  failure only occurs on a set of Lebesgue measur
 \frame{
 \frametitle{An example of bootstrap inconsistency for an unbiased statistic}
 \bit
-\item It is also not too difficult to construct other simpler examples where the bootstrap fails on a parameter set with positive measure that are unbiased for finite samples and not just asymptotically; although they seem  not to have previously appeared in the literature.
+\item It is not too difficult to construct other simpler examples where the bootstrap fails on a parameter set with positive measure that are unbiased for finite samples and not just asymptotically; although they seem  not to have previously appeared in the literature.
 
 \item We give one here: suppose $X_i$ are drawn iid from  $\{\normal(\mu, 1)\}_{\mu \in \mathbb{R}}$ .
 \item Our estimate for $\mu$ is $$\theta(\hat{F}) = \theta(X_1, \ldots, X_n) = \bar{X} + \#\{(i,j) : X_i = X_j, i \neq j \}$$
@@ -430,9 +431,11 @@ Although in this case bootstrap  failure only occurs on a set of Lebesgue measur
 \frame{
 \frametitle{An example of bootstrap inconsistency for an unbiased statistic}\bit
 \item The previous example is unnatural and unlikely arise in practice.
-\item But it does not seem hard to extend this to cases of practical interest involving ties.
-\item For example the critical value of Wilcoxon rank-sum and signed rank tests might be approximated using the bootstrap when ties are present in the data.
+\item But we have an intuition that the phenomenon extends to cases of practical interest where the behaviour of the statistic is sensitive to ties:
+\bit
+\item The critical value of Wilcoxon rank-sum and signed rank tests might be approximated using the bootstrap when ties are present in the data.
 \item Alternatively an analyst might try to approximate the distribution of the Kolmogorov-Smirnov test statistic using the bootstrap. 
+\eit
 \eit
 }
 
@@ -458,6 +461,7 @@ $$ \pr(\sqrt{n}(\hat{\theta} - \theta_0)/\sigma \leq x) = \Phi(x) + n^{-1/2} p_1
 $$ \pr^*(\sqrt{n}(\hat{\theta}^* - \hat{\theta})/\hat{\sigma} \leq x) = \Phi(x) + n^{-1/2} \hat{p}_1(x) \phi(x) + \ldots$$
 \item Here the $\hat{p}_j(x)$  are $p_j(x)$ with population moments substituted for their empirical counterparts.
 \item Bootstrap is second order correct if $$n^{-1/2} \hat{p}_1(x) \phi(x) = n^{-1/2} p_1(x) \phi(x) + o(n^{-1/2})$$
+\item A detailed treatment is available in Hall (1992): ``The bootstrap and Edgeworth expansion"
 \eit
 
 }
@@ -467,7 +471,7 @@ $$ \pr^*(\sqrt{n}(\hat{\theta}^* - \hat{\theta})/\hat{\sigma} \leq x) = \Phi(x) 
 \bit
 \item If we can make our statistic asymptotically smooth in an appropriate sense then we should be OK.
 
-\item A natural way to do this is to let the number of matches, $m$, increase with $N_0$.
+\item A natural way to do this is to let the number of matches for each treated unit, say $m$, increase with $N_0$.
 \item Tentative empirical results suggest the consistency of the bootstrap depends on the rate at which $m$ grows. 
 \bit
 \item $m  \asymp  \sqrt{N_0}$ yields intervals with incorrect coverage.
@@ -479,8 +483,10 @@ $$ \pr^*(\sqrt{n}(\hat{\theta}^* - \hat{\theta})/\hat{\sigma} \leq x) = \Phi(x) 
 
 \frame{
 \frametitle{Simulation results for fixing the bootstrap}
+
 \includegraphics[width = 4in]{fig/SWIncreasingMatches.PDF}
 
+This figure compares the coverage accuracy of the bootstrap and normal theory intervals based on the variance estimator of Abadie and Imbens (2006) when the number of matches for each treated unit is $\Theta(\log(N_0))$
 
 }
 
@@ -492,10 +498,10 @@ $$ \pr^*(\sqrt{n}(\hat{\theta}^* - \hat{\theta})/\hat{\sigma} \leq x) = \Phi(x) 
 \frame{
 \frametitle{Conclusions}
 \bit
-\item Efron's bootstrap will not work for this kind of matching estimator with a single match on one covariate when the distribution of Y(0) is not degenerate.
+\item The vanilla bootstrap does not work reliably when using a fixed number of matches.
 \item We can save the bootstrap by making the estimator smoother asymptotically or by subsampling.
-\item Although we did not discuss it there might be other fixes too including the $m$-out-of-$n$ bootstrap and the wild bootstrap.
-\item There is also relatively recent work that suggests that Efron's bootstrap may be preferable even when it is not consistent because it outperforms other (possibly consistent) methods in finite samples.
+\item Although we did not discuss it there might be other fixes too (as Abadie and Imbens foreshadow) including the $m$-out-of-$n$ bootstrap and the wild bootstrap.
+\item There is also relatively recent work that suggests the vanilla bootstrap may be preferable even when it is not consistent because it outperforms other (possibly consistent) methods in finite samples: \hyperref[http://biomet.oxfordjournals.org/content/90/4/985.abstract]{Samworth (2003)}\footnote{http://biomet.oxfordjournals.org/content/90/4/985.abstract}
 \eit
 }
 
